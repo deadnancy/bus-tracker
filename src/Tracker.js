@@ -50,8 +50,6 @@ function Tracker() {
           [lineName]: { name: lineName, buses }
         }))
       })
-
-      return busData
     })
       .catch((error) => { throw new Error(error) })
   }
