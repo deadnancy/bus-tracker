@@ -1,3 +1,5 @@
+// https://bustime.mta.info/wiki/Developers/SIRIVehicleMonitoring
+
 const apiDetailLevel = 'minimum'
 const apiKey = process.env.REACT_APP_BUS_TIME_API_KEY
 
