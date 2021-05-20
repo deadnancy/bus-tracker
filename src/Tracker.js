@@ -8,7 +8,7 @@ import 'leaflet-rotatedmarker'
 import uniqid from 'uniqid'
 
 import {
-  getActivity, getBearing, getLocation, getLineName
+  getActivity, getBearing, getLocation, getLineName, getTimestamp
 } from './helpers/busTimeApiHelpers'
 import settings from './settings/busSettings'
 import { busTimeAPI, proxyURL } from './settings/busTimeSettings'
@@ -21,6 +21,7 @@ import './Tracker.css'
 
 function Tracker() {
   const [busData, setBusData] = useState({})
+  const [userPosition, setUserPosition] = useState()
 
   const getBusData = () => {
     const apiRequests = []
@@ -37,6 +38,7 @@ function Tracker() {
       busLines.forEach((line) => {
         const activity = getActivity(line)
         const lineName = getLineName(activity)
+        const timestamp = getTimestamp(line)
 
         const buses = activity.map((bus) => {
           const location = getLocation(bus)
@@ -47,7 +49,7 @@ function Tracker() {
 
         setBusData((prevBusData) => ({
           ...prevBusData,
-          [lineName]: { name: lineName, buses }
+          [lineName]: { name: lineName, buses, timestamp }
         }))
       })
     })
@@ -79,16 +81,27 @@ function Tracker() {
     />
   )
 
-  const drawStop = (color, position) => (
+  const drawMarker = (color, position, radius = 5) => (
     <CircleMarker
       center={position}
       key={uniqid()}
       pathOptions={{ color: `#${color}`, opacity: 0, fillOpacity: 0.66 }}
-      radius={5}
+      radius={radius}
     />
   )
 
-  useEffect(() => { getBusData() }, [])
+  const setUser = (position) => {
+    const { latitude, longitude } = position.coords
+
+    setUserPosition([latitude, longitude])
+  }
+
+  const getUserPosition = () => navigator.geolocation.getCurrentPosition(setUser)
+
+  useEffect(() => {
+    getBusData()
+    getUserPosition()
+  }, [])
 
   return (
     <MapContainer
@@ -100,15 +113,23 @@ function Tracker() {
         attribution={mapAttribution}
         url={mapboxURL}
       />
+      { userPosition && drawMarker('ff0', userPosition, 7)}
+
       { Object.values(settings).map((line) => drawRoute(line)) }
 
       { Object.values(settings).map((bus) => (
-        bus.stops.map((position) => drawStop(bus.color, position))
+        bus.stops.map((position) => drawMarker(bus.color, position))
       ))}
 
       { Object.values(busData).map((line) => (
         line.buses.map((position) => drawBus(line.name, position))
       ))}
+
+      <div className="timestamp leaflet-control">
+        { Object.values(busData).map((line) => (
+          <p key={uniqid()}>{`${line.name}: ${line.timestamp}`}</p>
+        ))}
+      </div>
     </MapContainer>
   )
 }
