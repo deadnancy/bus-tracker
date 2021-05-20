@@ -92,12 +92,12 @@ function Tracker() {
     />
   )
 
-  const drawStop = (color, position, radius = 5) => (
+  const drawStop = (color, position) => (
     <CircleMarker
       center={position}
       key={uniqid()}
       pathOptions={{ color: `#${color}`, opacity: 0, fillOpacity: 0.66 }}
-      radius={radius}
+      radius={5}
     />
   )
 
