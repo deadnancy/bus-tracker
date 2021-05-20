@@ -94,6 +94,7 @@ function Tracker() {
     <MapContainer
       center={mapCenter}
       zoom={mapZoom}
+      zoomControl={false}
     >
       <TileLayer
         attribution={mapAttribution}
