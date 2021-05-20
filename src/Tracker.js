@@ -15,6 +15,7 @@ import { busTimeAPI, proxyURL } from './settings/busTimeSettings'
 import {
   mapAttribution, mapboxURL, mapCenter, mapZoom
 } from './settings/mapSettings'
+import user from './assets/svg/user.svg'
 
 import 'leaflet/dist/leaflet.css'
 import './Tracker.css'
@@ -56,6 +57,16 @@ function Tracker() {
       .catch((error) => { throw new Error(error) })
   }
 
+  const drawUser = (position) => (
+    <Marker
+      icon={L.icon({
+        iconSize: [40, 40],
+        iconUrl: user
+      })}
+      position={position}
+    />
+  )
+
   const drawBus = (line, position) => {
     const [location, bearing] = position
 
@@ -81,7 +92,7 @@ function Tracker() {
     />
   )
 
-  const drawMarker = (color, position, radius = 5) => (
+  const drawStop = (color, position, radius = 5) => (
     <CircleMarker
       center={position}
       key={uniqid()}
@@ -113,12 +124,12 @@ function Tracker() {
         attribution={mapAttribution}
         url={mapboxURL}
       />
-      { userPosition && drawMarker('ff0', userPosition, 7)}
+      { userPosition && drawUser(userPosition) }
 
       { Object.values(settings).map((line) => drawRoute(line)) }
 
       { Object.values(settings).map((bus) => (
-        bus.stops.map((position) => drawMarker(bus.color, position))
+        bus.stops.map((position) => drawStop(bus.color, position))
       ))}
 
       { Object.values(busData).map((line) => (
