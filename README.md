@@ -4,7 +4,7 @@ This is a personal NYC MTA bus tracker. Its scope is the three buses I rely on t
 
 ## demo
 
-See the [current build](http://fletcher.nyc/etc/bus-tracker/).
+See the [current build](https://fletcher.nyc/etc/bus-tracker/).
 
 ## local use
 
