@@ -30,7 +30,7 @@ function Tracker() {
 
     Object.values(settings).map((bus) => (
       apiRequests.push(
-        axios.get(proxyURL + encodeURIComponent(busTimeAPI + bus.line))
+        axios.post(proxyURL + encodeURIComponent(busTimeAPI + bus.line))
           .then((response) => busLines.push(response))
       )
     ))
@@ -112,6 +112,11 @@ function Tracker() {
   useEffect(() => {
     getBusData()
     getUserPosition()
+
+    setInterval(() => {
+      getBusData()
+      getUserPosition()
+    }, 15000)
   }, [])
 
   return (
@@ -124,6 +129,7 @@ function Tracker() {
         attribution={mapAttribution}
         url={mapboxURL}
       />
+
       { userPosition && drawUser(userPosition) }
 
       { Object.values(settings).map((line) => drawRoute(line)) }
