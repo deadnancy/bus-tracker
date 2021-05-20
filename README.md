@@ -1,5 +1,7 @@
 # bus-tracker
 
+![image](https://user-images.githubusercontent.com/6414141/118980242-48cad100-b947-11eb-8faf-7e8a1dcd0cce.png)
+
 This is a personal NYC MTA bus tracker. Its scope is the three buses I rely on to get to my studio and back: the B62, B43 and B48.
 
 ## demo
@@ -14,4 +16,7 @@ See the [current build](https://fletcher.nyc/etc/bus-tracker/).
 - Add `REACT_APP_BUS_TIME_API_KEY = '<your API key>'` to `.env`.
 - Create an account at [Mapbox](https://www.mapbox.com) and request an access token.
 - Add `REACT_APP_MAPBOX_TOKEN = '<your access token>'` to `.env`.
+- Add local security certificates to the project root:
+  - `openssl req -x509 -newkey rsa:2048 -keyout keytmp.pem -out cert.pem -days 365`
+  - `openssl rsa -in keytmp.pem -out key.pem`
 - Run the commands `yarn` then `yarn start`.
