@@ -1,6 +1,6 @@
 # bus-tracker
 
-![image](https://user-images.githubusercontent.com/6414141/118980242-48cad100-b947-11eb-8faf-7e8a1dcd0cce.png)
+![image](https://user-images.githubusercontent.com/6414141/119017473-0dd99500-b969-11eb-9489-ecb27b6a0ed2.png)
 
 This is a personal NYC MTA bus tracker. Its scope is the three buses I rely on to get to my studio and back: the B62, B43 and B48.
 
