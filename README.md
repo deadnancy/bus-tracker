@@ -20,3 +20,14 @@ See the [current build](https://fletcher.nyc/etc/bus-tracker/).
   - `openssl req -x509 -newkey rsa:2048 -keyout keytmp.pem -out cert.pem -days 365`
   - `openssl rsa -in keytmp.pem -out key.pem`
 - Run the commands `yarn` then `yarn start`.
+
+## known issues
+
+Safari refuses to make the API calls from `setInterval()` unless the Web Inspector is open.
+
+Other browsers behave as expected, but unless the Web Inspector is open, Safari does nothing. Fiddler shows no network activity. I don't see any errors because if I open the Web Inspector to see them, Safari behaves as expected.
+
+Things that make no difference:
+ - changing from axios to `fetch`
+ - user interaction (real or simulated)
+ - manipulating DOM elements
