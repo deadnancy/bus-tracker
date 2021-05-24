@@ -8,19 +8,21 @@ import 'leaflet-rotatedmarker'
 import uniqid from 'uniqid'
 
 import {
-  getActivity, getBearing, getLocation, getLineName
+  getActivity, getBearing, getLocation, getLineName, getTimestamp
 } from './helpers/busTimeApiHelpers'
 import settings from './settings/busSettings'
 import { busTimeAPI, proxyURL } from './settings/busTimeSettings'
 import {
   mapAttribution, mapboxURL, mapCenter, mapZoom
 } from './settings/mapSettings'
+import user from './assets/svg/user.svg'
 
 import 'leaflet/dist/leaflet.css'
 import './Tracker.css'
 
 function Tracker() {
   const [busData, setBusData] = useState({})
+  const [userPosition, setUserPosition] = useState()
 
   const getBusData = () => {
     const apiRequests = []
@@ -28,7 +30,7 @@ function Tracker() {
 
     Object.values(settings).map((bus) => (
       apiRequests.push(
-        axios.get(proxyURL + encodeURIComponent(busTimeAPI + bus.line))
+        axios.post(proxyURL + encodeURIComponent(busTimeAPI + bus.line))
           .then((response) => busLines.push(response))
       )
     ))
@@ -37,6 +39,7 @@ function Tracker() {
       busLines.forEach((line) => {
         const activity = getActivity(line)
         const lineName = getLineName(activity)
+        const timestamp = getTimestamp(line)
 
         const buses = activity.map((bus) => {
           const location = getLocation(bus)
@@ -47,12 +50,22 @@ function Tracker() {
 
         setBusData((prevBusData) => ({
           ...prevBusData,
-          [lineName]: { name: lineName, buses }
+          [lineName]: { name: lineName, buses, timestamp }
         }))
       })
     })
       .catch((error) => { throw new Error(error) })
   }
+
+  const drawUser = (position) => (
+    <Marker
+      icon={L.icon({
+        iconSize: [40, 40],
+        iconUrl: user
+      })}
+      position={position}
+    />
+  )
 
   const drawBus = (line, position) => {
     const [location, bearing] = position
@@ -88,17 +101,37 @@ function Tracker() {
     />
   )
 
-  useEffect(() => { getBusData() }, [])
+  const setUser = (position) => {
+    const { latitude, longitude } = position.coords
+
+    setUserPosition([latitude, longitude])
+  }
+
+  const getUserPosition = () => navigator.geolocation.getCurrentPosition(setUser)
+
+  useEffect(() => {
+    getBusData()
+    getUserPosition()
+
+    setInterval(() => {
+      getBusData()
+      getUserPosition()
+    }, 15000)
+  }, [])
 
   return (
     <MapContainer
       center={mapCenter}
       zoom={mapZoom}
+      zoomControl={false}
     >
       <TileLayer
         attribution={mapAttribution}
         url={mapboxURL}
       />
+
+      { userPosition && drawUser(userPosition) }
+
       { Object.values(settings).map((line) => drawRoute(line)) }
 
       { Object.values(settings).map((bus) => (
@@ -108,6 +141,12 @@ function Tracker() {
       { Object.values(busData).map((line) => (
         line.buses.map((position) => drawBus(line.name, position))
       ))}
+
+      <div className="timestamp leaflet-control">
+        { Object.values(busData).map((line) => (
+          <p key={uniqid()}>{`${line.name}: ${line.timestamp}`}</p>
+        ))}
+      </div>
     </MapContainer>
   )
 }

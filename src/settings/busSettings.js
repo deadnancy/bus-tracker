@@ -30,7 +30,7 @@ const settings = {
   B62: {
     line: 'B62',
     route: b62route,
-    color: '0066ff',
+    color: '1177ff',
     marker: b62marker,
     stops: [
       [40.7340700, -73.9551300],

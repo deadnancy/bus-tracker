@@ -35,6 +35,9 @@ bower_components
 # dotenv environment variables file
 .env
 
+# local certificates
+*.pem
+
 # misc
 .DS_Store
 .env.local
@@ -42,6 +45,9 @@ bower_components
 .env.test.local
 .env.production.local
 Thumbs.db
+.sass-cache
+connect.lock
+typings
 
 # node-waf configuration
 .lock-wscript
@@ -61,11 +67,6 @@ Thumbs.db
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
-# misc
-.sass-cache
-connect.lock
-typings
 
 # Logs
 logs

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
+    "start": "export HTTPS=true&&SSL_CRT_FILE=cert.pem&&SSL_KEY_FILE=key.pem react-scripts start",
     "build": "PUBLIC_URL=/etc/bus-tracker/ react-scripts build",
     "test": "react-scripts test --verbose",
     "eject": "react-scripts eject",
