@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import L from 'leaflet'
-import {
-  CircleMarker, GeoJSON, MapContainer, Marker, TileLayer
-} from 'react-leaflet'
+import { MapContainer, TileLayer } from 'react-leaflet'
 import 'leaflet-rotatedmarker'
 import uniqid from 'uniqid'
 
@@ -15,7 +12,9 @@ import { busTimeAPI, proxyURL } from './settings/busTimeSettings'
 import {
   mapAttribution, mapboxURL, mapCenter, mapZoom
 } from './settings/mapSettings'
-import user from './assets/svg/user.svg'
+import {
+  drawBus, drawRoute, drawStop, drawUser
+} from './components/markers'
 
 import 'leaflet/dist/leaflet.css'
 import './Tracker.css'
@@ -56,50 +55,6 @@ function Tracker() {
     })
       .catch((error) => { throw new Error(error) })
   }
-
-  const drawUser = (position) => (
-    <Marker
-      icon={L.icon({
-        iconSize: [40, 40],
-        iconUrl: user
-      })}
-      position={position}
-    />
-  )
-
-  const drawBus = (line, pos) => {
-    const [position, bearing] = pos
-
-    return (
-      <Marker
-        icon={L.icon({
-          iconSize: [40, 40],
-          iconUrl: settings[line].marker
-        })}
-        key={uniqid()}
-        position={position}
-        rotationAngle={-bearing}
-        rotationOrigin="center center"
-      />
-    )
-  }
-
-  const drawRoute = (line) => (
-    <GeoJSON
-      data={line.route}
-      key={uniqid()}
-      style={{ color: `#${line.color}33` }}
-    />
-  )
-
-  const drawStop = (color, position) => (
-    <CircleMarker
-      center={position}
-      key={uniqid()}
-      pathOptions={{ color: `#${color}`, opacity: 0, fillOpacity: 0.66 }}
-      radius={5}
-    />
-  )
 
   const setUser = (position) => {
     const { latitude, longitude } = position.coords
