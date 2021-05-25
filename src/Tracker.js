@@ -135,7 +135,7 @@ function Tracker() {
       { Object.values(settings).map((line) => drawRoute(line)) }
 
       { Object.values(settings).map((bus) => (
-        bus.stops.map((position) => drawStop(bus.color, position))
+        bus.stops.map((stop) => drawStop(bus.color, stop.position))
       ))}
 
       { Object.values(busData).map((line) => (
