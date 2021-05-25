@@ -1,6 +1,6 @@
 # bus-tracker
 
-![image](https://user-images.githubusercontent.com/6414141/119017473-0dd99500-b969-11eb-9489-ecb27b6a0ed2.png)
+![image](https://user-images.githubusercontent.com/6414141/119500653-05e96e80-bd36-11eb-9dee-5451008a9aaf.png)
 
 This is a personal NYC MTA bus tracker. Its scope is the three buses I rely on to get to my studio and back: the B62, B43 and B48.
 
@@ -20,14 +20,3 @@ See the [current build](https://fletcher.nyc/etc/bus-tracker/).
   - `openssl req -x509 -newkey rsa:2048 -keyout keytmp.pem -out cert.pem -days 365`
   - `openssl rsa -in keytmp.pem -out key.pem`
 - Run the commands `yarn` then `yarn start`.
-
-## known issues
-
-Safari refuses to make the API calls from `setInterval()` unless the Web Inspector is open.
-
-Other browsers behave as expected, but unless the Web Inspector is open, Safari does nothing. Fiddler shows no network activity. I don't see any errors because if I open the Web Inspector to see them, Safari behaves as expected.
-
-Things that make no difference:
- - changing from axios to `fetch`
- - user interaction (real or simulated)
- - manipulating DOM elements

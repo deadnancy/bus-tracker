@@ -30,7 +30,7 @@ function Tracker() {
 
     Object.values(settings).map((bus) => (
       apiRequests.push(
-        axios.post(proxyURL + encodeURIComponent(busTimeAPI + bus.line))
+        axios.post(proxyURL + encodeURIComponent(`${busTimeAPI}${bus.line}&nocache=${uniqid()}`))
           .then((response) => busLines.push(response))
       )
     ))
