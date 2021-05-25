@@ -6,9 +6,9 @@ const getTimestamp = (line) => svcDelivery(line).ResponseTimestamp.match(/\d\d:\
 
 const getLineName = (activity) => activity[0].MonitoredVehicleJourney.PublishedLineName[0]
 
-const getLocation = (bus) => bus.MonitoredVehicleJourney.VehicleLocation
+const getPosition = (bus) => bus.MonitoredVehicleJourney.VehicleLocation
 const getBearing = (bus) => bus.MonitoredVehicleJourney.Bearing
 
 export {
-  getActivity, getBearing, getLocation, getLineName, getTimestamp
+  getActivity, getBearing, getLineName, getPosition, getTimestamp
 }

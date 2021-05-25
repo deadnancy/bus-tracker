@@ -8,7 +8,7 @@ import 'leaflet-rotatedmarker'
 import uniqid from 'uniqid'
 
 import {
-  getActivity, getBearing, getLocation, getLineName, getTimestamp
+  getActivity, getBearing, getLineName, getPosition, getTimestamp
 } from './helpers/busTimeApiHelpers'
 import settings from './settings/busSettings'
 import { busTimeAPI, proxyURL } from './settings/busTimeSettings'
@@ -42,10 +42,10 @@ function Tracker() {
         const timestamp = getTimestamp(line)
 
         const buses = activity.map((bus) => {
-          const location = getLocation(bus)
+          const position = getPosition(bus)
           const bearing = getBearing(bus)
 
-          return [[location.Latitude, location.Longitude], bearing]
+          return [[position.Latitude, position.Longitude], bearing]
         })
 
         setBusData((prevBusData) => ({
@@ -67,8 +67,8 @@ function Tracker() {
     />
   )
 
-  const drawBus = (line, position) => {
-    const [location, bearing] = position
+  const drawBus = (line, pos) => {
+    const [position, bearing] = pos
 
     return (
       <Marker
@@ -77,7 +77,7 @@ function Tracker() {
           iconUrl: settings[line].marker
         })}
         key={uniqid()}
-        position={location}
+        position={position}
         rotationAngle={-bearing}
         rotationOrigin="center center"
       />
