@@ -5,10 +5,10 @@ import 'leaflet-rotatedmarker'
 import uniqid from 'uniqid'
 
 import {
-  getActivity, getBearing, getLineName, getPosition, getTimestamp
+  getBusBearing, getBuses, getBusLine, getBusPosition, getTimestamp
 } from './destructurers/busTimeAPI'
 import settings from './settings/buses'
-import { busTimeVehicleAPI, proxyURL } from './settings/busTimeAPI'
+import { busTimeStopAPI, proxyURL } from './settings/busTimeAPI'
 import {
   mapAttribution, mapboxURL, mapCenter, mapZoom
 } from './settings/map'
@@ -20,36 +20,41 @@ import 'leaflet/dist/leaflet.css'
 import './Tracker.css'
 
 function Tracker() {
-  const [busData, setBusData] = useState({})
+  const [stopData, setStopData] = useState({})
   const [userPosition, setUserPosition] = useState()
 
-  const getBusData = () => {
+  const getStopData = () => {
     const apiRequests = []
-    const busLines = []
+    const busStops = []
 
     Object.values(settings).map((bus) => (
-      apiRequests.push(
-        axios.post(proxyURL + encodeURIComponent(`${busTimeVehicleAPI}${bus.line}&nocache=${uniqid()}`))
-          .then((response) => busLines.push(response))
-      )
+      bus.stops.forEach((stop) => {
+        if (stop.id) {
+          apiRequests.push(
+            axios.post(proxyURL + encodeURIComponent(`${busTimeStopAPI}${stop.id}&nocache=${uniqid()}`))
+              .then((response) => busStops.push({ id: stop.id, data: response }))
+          )
+        }
+      })
     ))
 
     Promise.all(apiRequests).then(() => {
-      busLines.forEach((line) => {
-        const activity = getActivity(line)
-        const lineName = getLineName(activity)
-        const timestamp = getTimestamp(line)
+      busStops.forEach((stop) => {
+        const timestamp = getTimestamp(stop.data)
 
-        const buses = activity.map((bus) => {
-          const position = getPosition(bus)
-          const bearing = getBearing(bus)
+        const buses = getBuses(stop.data).map((bus) => {
+          const line = getBusLine(bus)
+          const position = getBusPosition(bus)
+          const bearing = getBusBearing(bus)
 
-          return [[position.Latitude, position.Longitude], bearing]
+          return {
+            line, position: [position.Latitude, position.Longitude], bearing
+          }
         })
 
-        setBusData((prevBusData) => ({
-          ...prevBusData,
-          [lineName]: { name: lineName, buses, timestamp }
+        setStopData((prevStopData) => ({
+          ...prevStopData,
+          [stop.id]: { id: stop.id, buses, timestamp }
         }))
       })
     })
@@ -65,11 +70,11 @@ function Tracker() {
   const getUserPosition = () => navigator.geolocation.getCurrentPosition(setUser)
 
   useEffect(() => {
-    getBusData()
+    getStopData()
     getUserPosition()
 
     setInterval(() => {
-      getBusData()
+      getStopData()
       getUserPosition()
     }, 15000)
   }, [])
@@ -89,17 +94,19 @@ function Tracker() {
 
       { Object.values(settings).map((line) => drawRoute(line)) }
 
-      { Object.values(settings).map((bus) => (
-        bus.stops.map((stop) => drawStop(bus.color, stop.position))
+      { Object.values(settings).map((line) => (
+        line.stops.map((stop) => drawStop(line.color, stop.position))
       ))}
 
-      { Object.values(busData).map((line) => (
-        line.buses.map((position) => drawBus(line.name, position))
+      { Object.values(stopData).map((stop) => (
+        stop.buses.map((bus) => (
+          drawBus(settings[bus.line].line, [bus.position, bus.bearing])
+        ))
       ))}
 
       <div className="timestamp leaflet-control">
-        { Object.values(busData).map((line) => (
-          <p key={uniqid()}>{`${line.name}: ${line.timestamp}`}</p>
+        { Object.values(stopData).map((stop) => (
+          <p key={uniqid()}>{`${stop.id}: ${stop.timestamp}`}</p>
         ))}
       </div>
     </MapContainer>

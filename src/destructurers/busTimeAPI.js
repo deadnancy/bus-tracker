@@ -1,14 +1,13 @@
 // https://bustime.mta.info/wiki/Developers/SIRIVehicleMonitoring
 
-const svcDelivery = (line) => line.data.contents.Siri.ServiceDelivery
-const getActivity = (line) => svcDelivery(line).VehicleMonitoringDelivery[0].VehicleActivity
-const getTimestamp = (line) => svcDelivery(line).ResponseTimestamp.match(/\d\d:\d\d:\d\d/)
+const svcDelivery = (stop) => stop.data.contents.Siri.ServiceDelivery
+const getBuses = (stop) => svcDelivery(stop).StopMonitoringDelivery[0].MonitoredStopVisit
+const getTimestamp = (stop) => svcDelivery(stop).ResponseTimestamp.match(/\d\d:\d\d:\d\d/)
 
-const getLineName = (activity) => activity[0].MonitoredVehicleJourney.PublishedLineName[0]
-
-const getPosition = (bus) => bus.MonitoredVehicleJourney.VehicleLocation
-const getBearing = (bus) => bus.MonitoredVehicleJourney.Bearing
+const getBusLine = (bus) => bus.MonitoredVehicleJourney.PublishedLineName[0]
+const getBusPosition = (bus) => bus.MonitoredVehicleJourney.VehicleLocation
+const getBusBearing = (bus) => bus.MonitoredVehicleJourney.Bearing
 
 export {
-  getActivity, getBearing, getLineName, getPosition, getTimestamp
+  getBusBearing, getBuses, getBusLine, getBusPosition, getTimestamp
 }
