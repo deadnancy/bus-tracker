@@ -1,8 +1,10 @@
 import L from 'leaflet'
-import { CircleMarker, GeoJSON, Marker } from 'react-leaflet'
+import {
+  CircleMarker, GeoJSON, Marker, Popup
+} from 'react-leaflet'
 import uniqid from 'uniqid'
 
-import settings from '../settings/busSettings'
+import settings from '../settings/buses'
 import user from '../assets/svg/user.svg'
 
 const drawBus = (line, pos) => {
@@ -36,7 +38,11 @@ const drawStop = (color, position) => (
     key={uniqid()}
     pathOptions={{ color: `#${color}`, opacity: 0, fillOpacity: 0.66 }}
     radius={5}
-  />
+  >
+    <Popup>
+      I AM POPUP
+    </Popup>
+  </CircleMarker>
 )
 
 const drawUser = (position) => (

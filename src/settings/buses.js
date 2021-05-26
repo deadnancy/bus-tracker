@@ -19,7 +19,7 @@ const settings = {
         position: [40.7340700, -73.9551300]
       },
       {
-        id: 305174,
+        id: 307121,
         name: 'Manhattan Av/Nassau Av',
         position: [40.7236000, -73.9504300]
       }
@@ -50,7 +50,8 @@ const settings = {
     marker: b62marker,
     stops: [
       {
-        id: 305167,
+        // Visual only for 305167. See B43.
+        id: 0,
         name: 'Manhattan Av/Freeman St',
         position: [40.7340700, -73.9551300]
       },

@@ -6,15 +6,15 @@ import uniqid from 'uniqid'
 
 import {
   getActivity, getBearing, getLineName, getPosition, getTimestamp
-} from './helpers/busTimeApiHelpers'
-import settings from './settings/busSettings'
-import { busTimeAPI, proxyURL } from './settings/busTimeSettings'
+} from './destructurers/busTimeAPI'
+import settings from './settings/buses'
+import { busTimeVehicleAPI, proxyURL } from './settings/busTimeAPI'
 import {
   mapAttribution, mapboxURL, mapCenter, mapZoom
-} from './settings/mapSettings'
+} from './settings/map'
 import {
   drawBus, drawRoute, drawStop, drawUser
-} from './components/markers'
+} from './indicators/markers'
 
 import 'leaflet/dist/leaflet.css'
 import './Tracker.css'
@@ -29,7 +29,7 @@ function Tracker() {
 
     Object.values(settings).map((bus) => (
       apiRequests.push(
-        axios.post(proxyURL + encodeURIComponent(`${busTimeAPI}${bus.line}&nocache=${uniqid()}`))
+        axios.post(proxyURL + encodeURIComponent(`${busTimeVehicleAPI}${bus.line}&nocache=${uniqid()}`))
           .then((response) => busLines.push(response))
       )
     ))
