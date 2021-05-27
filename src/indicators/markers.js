@@ -27,7 +27,7 @@ const drawBus = (color, pos) => {
 }
 
 const drawStops = () => (
-  Object.values(stops).map((stop) => (
+  stops.map((stop) => (
     <CircleMarker
       center={stop.position}
       key={uniqid()}
