@@ -5,9 +5,7 @@ import B43route from '../assets/geojson/b43.json'
 import B48route from '../assets/geojson/b48.json'
 import B62route from '../assets/geojson/b62.json'
 
-// TO DO: Combine drawRoute + routes.
-
-const routes = {
+const lines = {
   B43: {
     route: B43route,
     color: 'ff0000'
@@ -22,12 +20,14 @@ const routes = {
   }
 }
 
-const drawRoute = (line) => (
-  <GeoJSON
-    data={line.route}
-    key={uniqid()}
-    style={{ color: `#${line.color}33` }}
-  />
+const drawRoutes = () => (
+  Object.values(lines).map((line) => (
+    <GeoJSON
+      data={line.route}
+      key={uniqid()}
+      style={{ color: `#${line.color}33` }}
+    />
+  ))
 )
 
-export { drawRoute, routes }
+export default drawRoutes

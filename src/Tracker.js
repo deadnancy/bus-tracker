@@ -6,10 +6,10 @@ import uniqid from 'uniqid'
 
 import settings from './settings/buses'
 import { busTimeStopAPI, proxyURL } from './settings/busTimeAPI'
-import { drawRoute, routes } from './indicators/routes'
+import drawRoutes from './indicators/routes'
 import { drawBus, drawStop, drawUser } from './indicators/markers'
 import {
-  getBusBearing, getBuses, getBusLine, getBusPosition, getTimestamp
+  getBuses, getBusLine, getBusPosition, getTimestamp
 } from './destructurers/busTimeAPI'
 import {
   mapAttribution, mapboxURL, mapCenter, mapZoom
@@ -45,15 +45,9 @@ function Tracker() {
       busStops.forEach((stop) => {
         const timestamp = getTimestamp(stop.data)
 
-        const buses = getBuses(stop.data).map((bus) => {
-          const line = getBusLine(bus)
-          const position = getBusPosition(bus)
-          const bearing = getBusBearing(bus)
-
-          return {
-            line, position: [position.Latitude, position.Longitude], bearing
-          }
-        })
+        const buses = getBuses(stop.data).map((bus) => (
+          { line: getBusLine(bus), position: getBusPosition(bus) }
+        ))
 
         setStopData((prevStopData) => ({
           ...prevStopData,
@@ -100,7 +94,7 @@ function Tracker() {
 
       { userPosition && drawUser(userPosition) }
 
-      { Object.values(routes).map((line) => drawRoute(line)) }
+      { drawRoutes() }
 
       { Object.values(settings).map((line) => (
         line.stops.map((stop) => drawStop(line.color, stop.position))
@@ -108,7 +102,7 @@ function Tracker() {
 
       { Object.values(stopData).map((stop) => (
         stop.buses.map((bus) => (
-          drawBus(settings[bus.line].line, [bus.position, bus.bearing])
+          drawBus(settings[bus.line].name, bus.position)
         ))
       ))}
 

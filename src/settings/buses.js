@@ -8,7 +8,7 @@ import b62route from '../assets/geojson/b62.json'
 
 const settings = {
   B43: {
-    line: 'B43',
+    name: 'B43',
     route: b43route,
     color: 'ff0000',
     marker: b43marker,
@@ -26,7 +26,7 @@ const settings = {
     ]
   },
   B48: {
-    line: 'B48',
+    name: 'B48',
     route: b48route,
     color: '00cc00',
     marker: b48marker,
@@ -44,7 +44,7 @@ const settings = {
     ]
   },
   B62: {
-    line: 'B62',
+    name: 'B62',
     route: b62route,
     color: '1177ff',
     marker: b62marker,
