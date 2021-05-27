@@ -3,14 +3,15 @@ import { CircleMarker, Marker } from 'react-leaflet'
 import uniqid from 'uniqid'
 
 import settings from '../settings/buses'
+import stops from '../settings/stops'
 import bus from './bus'
 import user from './user'
 
-// const svg = 'data:image/svg+xml;base64,'
+const svg = 'data:image/svg+xml;base64,'
 
 const drawBus = (line, pos) => {
   const [position, bearing] = pos
-  const iconUrl = `data:image/svg+xml;base64,${btoa(bus(settings[line].color))}`
+  const iconUrl = `${svg}${btoa(bus(settings[line].color))}`
 
   return (
     <Marker
@@ -26,17 +27,19 @@ const drawBus = (line, pos) => {
   )
 }
 
-const drawStop = (color, position) => (
-  <CircleMarker
-    center={position}
-    key={uniqid()}
-    pathOptions={{ color: `${color}`, opacity: 0, fillOpacity: 0.66 }}
-    radius={5}
-  />
+const drawStops = () => (
+  Object.values(stops).map((stop) => (
+    <CircleMarker
+      center={stop.position}
+      key={uniqid()}
+      pathOptions={{ color: stop.color, opacity: 0, fillOpacity: 0.66 }}
+      radius={5}
+    />
+  ))
 )
 
 const drawUser = (position) => {
-  const iconUrl = `data:image/svg+xml;base64,${btoa(user('#bb0'))}`
+  const iconUrl = `${svg}${btoa(user('#bb0'))}`
 
   return (
     <Marker
@@ -49,4 +52,4 @@ const drawUser = (position) => {
   )
 }
 
-export { drawBus, drawStop, drawUser }
+export { drawBus, drawStops, drawUser }

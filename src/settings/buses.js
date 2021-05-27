@@ -1,11 +1,6 @@
-import b43route from '../geojson/b43.json'
-import b48route from '../geojson/b48.json'
-import b62route from '../geojson/b62.json'
-
 const settings = {
   B43: {
     name: 'B43',
-    route: b43route,
     color: '#ff0000',
     stops: [
       {
@@ -22,7 +17,6 @@ const settings = {
   },
   B48: {
     name: 'B48',
-    route: b48route,
     color: '#00cc00',
     stops: [
       {
@@ -39,7 +33,6 @@ const settings = {
   },
   B62: {
     name: 'B62',
-    route: b62route,
     color: '#1177ff',
     stops: [
       {

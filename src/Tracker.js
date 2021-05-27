@@ -7,7 +7,7 @@ import uniqid from 'uniqid'
 import settings from './settings/buses'
 import { busTimeStopAPI, proxyURL } from './settings/busTimeAPI'
 import drawRoutes from './indicators/routes'
-import { drawBus, drawStop, drawUser } from './indicators/markers'
+import { drawBus, drawStops, drawUser } from './indicators/markers'
 import {
   getBuses, getBusLine, getBusPosition, getTimestamp
 } from './destructurers/busTimeAPI'
@@ -93,12 +93,8 @@ function Tracker() {
       />
 
       { userPosition && drawUser(userPosition) }
-
       { drawRoutes() }
-
-      { Object.values(settings).map((line) => (
-        line.stops.map((stop) => drawStop(line.color, stop.position))
-      ))}
+      { drawStops() }
 
       { Object.values(stopData).map((stop) => (
         stop.buses.map((bus) => (
