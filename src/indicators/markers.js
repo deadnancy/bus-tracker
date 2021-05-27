@@ -2,16 +2,15 @@ import L from 'leaflet'
 import { CircleMarker, Marker } from 'react-leaflet'
 import uniqid from 'uniqid'
 
-import settings from '../settings/buses'
 import stops from '../settings/stops'
 import bus from './bus'
 import user from './user'
 
 const svg = 'data:image/svg+xml;base64,'
 
-const drawBus = (line, pos) => {
+const drawBus = (color, pos) => {
   const [position, bearing] = pos
-  const iconUrl = `${svg}${btoa(bus(settings[line].color))}`
+  const iconUrl = `${svg}${btoa(bus(color))}`
 
   return (
     <Marker

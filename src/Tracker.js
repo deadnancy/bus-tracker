@@ -4,7 +4,7 @@ import { MapContainer, TileLayer } from 'react-leaflet'
 import 'leaflet-rotatedmarker'
 import uniqid from 'uniqid'
 
-import settings from './settings/buses'
+import stops from './settings/stops'
 import { busTimeStopAPI, proxyURL } from './settings/busTimeAPI'
 import drawRoutes from './indicators/routes'
 import { drawBus, drawStops, drawUser } from './indicators/markers'
@@ -26,19 +26,16 @@ function Tracker() {
     const apiRequests = []
     const busStops = []
 
-    Object.values(settings).map((bus) => (
-      bus.stops.forEach((stop) => {
-        if (stop.id) {
-          apiRequests.push(
-            axios.post(proxyURL + encodeURIComponent(`${busTimeStopAPI}${stop.id}&nocache=${uniqid()}`))
-              .then((response) => busStops.push({
-                id: stop.id,
-                name: stop.name,
-                data: response
-              }))
-          )
-        }
-      })
+    Object.values(stops).map((stop) => (
+      apiRequests.push(
+        axios.post(proxyURL + encodeURIComponent(`${busTimeStopAPI}${stop.id}&nocache=${uniqid()}`))
+          .then((response) => busStops.push({
+            id: stop.id,
+            name: stop.name,
+            color: stop.color,
+            data: response
+          }))
+      )
     ))
 
     Promise.all(apiRequests).then(() => {
@@ -54,6 +51,7 @@ function Tracker() {
           [stop.id]: {
             id: stop.id,
             name: stop.name,
+            color: stop.color,
             buses,
             timestamp
           }
@@ -98,7 +96,7 @@ function Tracker() {
 
       { Object.values(stopData).map((stop) => (
         stop.buses.map((bus) => (
-          drawBus(settings[bus.line].name, bus.position)
+          drawBus(stop.color, bus.position)
         ))
       ))}
 
