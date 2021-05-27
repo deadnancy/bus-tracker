@@ -1,9 +1,9 @@
 import { GeoJSON } from 'react-leaflet'
 import uniqid from 'uniqid'
 
-import B43route from '../assets/geojson/b43.json'
-import B48route from '../assets/geojson/b48.json'
-import B62route from '../assets/geojson/b62.json'
+import B43route from '../geojson/b43.json'
+import B48route from '../geojson/b48.json'
+import B62route from '../geojson/b62.json'
 
 const lines = {
   B43: {

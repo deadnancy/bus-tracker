@@ -12,7 +12,7 @@ import {
   getBuses, getBusLine, getBusPosition, getTimestamp
 } from './destructurers/busTimeAPI'
 import {
-  mapAttribution, mapboxURL, mapCenter, mapZoom
+  mapAttr, tilesURL, mapCenter, mapZoom
 } from './settings/map'
 
 import 'leaflet/dist/leaflet.css'
@@ -88,8 +88,8 @@ function Tracker() {
       zoomControl={false}
     >
       <TileLayer
-        attribution={mapAttribution}
-        url={mapboxURL}
+        attribution={mapAttr}
+        url={tilesURL}
       />
 
       { userPosition && drawUser(userPosition) }

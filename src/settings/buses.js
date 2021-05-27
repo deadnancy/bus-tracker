@@ -1,17 +1,12 @@
-import b43marker from '../assets/svg/b43.svg'
-import b48marker from '../assets/svg/b48.svg'
-import b62marker from '../assets/svg/b62.svg'
-
-import b43route from '../assets/geojson/b43.json'
-import b48route from '../assets/geojson/b48.json'
-import b62route from '../assets/geojson/b62.json'
+import b43route from '../geojson/b43.json'
+import b48route from '../geojson/b48.json'
+import b62route from '../geojson/b62.json'
 
 const settings = {
   B43: {
     name: 'B43',
     route: b43route,
-    color: 'ff0000',
-    marker: b43marker,
+    color: '#ff0000',
     stops: [
       {
         id: 305167,
@@ -28,8 +23,7 @@ const settings = {
   B48: {
     name: 'B48',
     route: b48route,
-    color: '00cc00',
-    marker: b48marker,
+    color: '#00cc00',
     stops: [
       {
         id: 307096,
@@ -46,8 +40,7 @@ const settings = {
   B62: {
     name: 'B62',
     route: b62route,
-    color: '1177ff',
-    marker: b62marker,
+    color: '#1177ff',
     stops: [
       {
         // Visual only for 305167. See B43.

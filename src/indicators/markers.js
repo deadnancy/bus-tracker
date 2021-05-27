@@ -1,18 +1,22 @@
 import L from 'leaflet'
-import { CircleMarker, Marker, Popup } from 'react-leaflet'
+import { CircleMarker, Marker } from 'react-leaflet'
 import uniqid from 'uniqid'
 
 import settings from '../settings/buses'
-import user from '../assets/svg/user.svg'
+import bus from './bus'
+import user from './user'
+
+// const svg = 'data:image/svg+xml;base64,'
 
 const drawBus = (line, pos) => {
   const [position, bearing] = pos
+  const iconUrl = `data:image/svg+xml;base64,${btoa(bus(settings[line].color))}`
 
   return (
     <Marker
       icon={L.icon({
         iconSize: [40, 40],
-        iconUrl: settings[line].marker
+        iconUrl
       })}
       key={uniqid()}
       position={position}
@@ -26,23 +30,23 @@ const drawStop = (color, position) => (
   <CircleMarker
     center={position}
     key={uniqid()}
-    pathOptions={{ color: `#${color}`, opacity: 0, fillOpacity: 0.66 }}
+    pathOptions={{ color: `${color}`, opacity: 0, fillOpacity: 0.66 }}
     radius={5}
-  >
-    <Popup>
-      I AM POPUP
-    </Popup>
-  </CircleMarker>
-)
-
-const drawUser = (position) => (
-  <Marker
-    icon={L.icon({
-      iconSize: [40, 40],
-      iconUrl: user
-    })}
-    position={position}
   />
 )
+
+const drawUser = (position) => {
+  const iconUrl = `data:image/svg+xml;base64,${btoa(user('#bb0'))}`
+
+  return (
+    <Marker
+      icon={L.icon({
+        iconSize: [40, 40],
+        iconUrl
+      })}
+      position={position}
+    />
+  )
+}
 
 export { drawBus, drawStop, drawUser }
