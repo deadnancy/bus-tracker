@@ -4,17 +4,16 @@ import { MapContainer, TileLayer } from 'react-leaflet'
 import 'leaflet-rotatedmarker'
 import uniqid from 'uniqid'
 
+import settings from './settings/buses'
+import { busTimeStopAPI, proxyURL } from './settings/busTimeAPI'
+import { drawRoute, routes } from './indicators/routes'
+import { drawBus, drawStop, drawUser } from './indicators/markers'
 import {
   getBusBearing, getBuses, getBusLine, getBusPosition, getTimestamp
 } from './destructurers/busTimeAPI'
-import settings from './settings/buses'
-import { busTimeStopAPI, proxyURL } from './settings/busTimeAPI'
 import {
   mapAttribution, mapboxURL, mapCenter, mapZoom
 } from './settings/map'
-import {
-  drawBus, drawRoute, drawStop, drawUser
-} from './indicators/markers'
 
 import 'leaflet/dist/leaflet.css'
 import './Tracker.css'
@@ -32,7 +31,11 @@ function Tracker() {
         if (stop.id) {
           apiRequests.push(
             axios.post(proxyURL + encodeURIComponent(`${busTimeStopAPI}${stop.id}&nocache=${uniqid()}`))
-              .then((response) => busStops.push({ id: stop.id, data: response }))
+              .then((response) => busStops.push({
+                id: stop.id,
+                name: stop.name,
+                data: response
+              }))
           )
         }
       })
@@ -54,7 +57,12 @@ function Tracker() {
 
         setStopData((prevStopData) => ({
           ...prevStopData,
-          [stop.id]: { id: stop.id, buses, timestamp }
+          [stop.id]: {
+            id: stop.id,
+            name: stop.name,
+            buses,
+            timestamp
+          }
         }))
       })
     })
@@ -92,7 +100,7 @@ function Tracker() {
 
       { userPosition && drawUser(userPosition) }
 
-      { Object.values(settings).map((line) => drawRoute(line)) }
+      { Object.values(routes).map((line) => drawRoute(line)) }
 
       { Object.values(settings).map((line) => (
         line.stops.map((stop) => drawStop(line.color, stop.position))
@@ -105,8 +113,9 @@ function Tracker() {
       ))}
 
       <div className="timestamp leaflet-control">
+        <p><em>stop: time data fetched</em></p>
         { Object.values(stopData).map((stop) => (
-          <p key={uniqid()}>{`${stop.id}: ${stop.timestamp}`}</p>
+          <p key={uniqid()}>{`${stop.name}: ${stop.timestamp}`}</p>
         ))}
       </div>
     </MapContainer>

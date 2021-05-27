@@ -6,8 +6,8 @@ const mapboxTiles = 'mapbox/dark-v10'
 const mapboxToken = process.env.REACT_APP_MAPBOX_TOKEN
 const mapboxURL = `${mapboxAPI}${mapboxTiles}/tiles/256/{z}/{x}/{y}@2x?access_token=${mapboxToken}`
 
-const openStreetMapAttr = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-const mapboxAttr = '&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a>'
+const openStreetMapAttr = '<a href="http://osm.org/copyright">OpenStreetMap</a>'
+const mapboxAttr = ' <a href="https://www.mapbox.com/about/maps/">Mapbox</a>'
 const mapAttribution = `${openStreetMapAttr} | ${mapboxAttr}`
 
 export {

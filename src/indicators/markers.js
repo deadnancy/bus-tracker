@@ -1,7 +1,5 @@
 import L from 'leaflet'
-import {
-  CircleMarker, GeoJSON, Marker, Popup
-} from 'react-leaflet'
+import { CircleMarker, Marker, Popup } from 'react-leaflet'
 import uniqid from 'uniqid'
 
 import settings from '../settings/buses'
@@ -23,14 +21,6 @@ const drawBus = (line, pos) => {
     />
   )
 }
-
-const drawRoute = (line) => (
-  <GeoJSON
-    data={line.route}
-    key={uniqid()}
-    style={{ color: `#${line.color}33` }}
-  />
-)
 
 const drawStop = (color, position) => (
   <CircleMarker
@@ -55,6 +45,4 @@ const drawUser = (position) => (
   />
 )
 
-export {
-  drawBus, drawRoute, drawStop, drawUser
-}
+export { drawBus, drawStop, drawUser }
