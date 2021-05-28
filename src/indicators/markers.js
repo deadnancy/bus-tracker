@@ -3,20 +3,20 @@ import { CircleMarker, Marker } from 'react-leaflet'
 import uniqid from 'uniqid'
 
 import stops from '../settings/stops'
-import bus from './bus'
-import user from './user'
+import busMarker from './bus'
+import userMarker from './user'
 
 const svg = 'data:image/svg+xml;base64,'
 
 const drawBus = (color, pos) => {
   const [position, bearing] = pos
-  const iconUrl = `${svg}${btoa(bus(color))}`
+  console.log(color, position, bearing)
 
   return (
     <Marker
       icon={L.icon({
         iconSize: [40, 40],
-        iconUrl
+        iconUrl: `${svg}${btoa(busMarker(color))}`
       })}
       key={uniqid()}
       position={position}
@@ -37,18 +37,14 @@ const drawStops = () => (
   ))
 )
 
-const drawUser = (position) => {
-  const iconUrl = `${svg}${btoa(user('#bb0'))}`
-
-  return (
-    <Marker
-      icon={L.icon({
-        iconSize: [40, 40],
-        iconUrl
-      })}
-      position={position}
-    />
-  )
-}
+const drawUser = (position) => (
+  <Marker
+    icon={L.icon({
+      iconSize: [40, 40],
+      iconUrl: `${svg}${btoa(userMarker('#bb0'))}`
+    })}
+    position={position}
+  />
+)
 
 export { drawBus, drawStops, drawUser }
