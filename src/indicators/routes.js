@@ -8,15 +8,15 @@ import B62route from '../geojson/b62.json'
 const lines = {
   B43: {
     route: B43route,
-    color: 'ff0000'
+    color: '#cc00ff'
   },
   B48: {
     route: B48route,
-    color: '00cc00'
+    color: '#cc6600'
   },
   B62: {
     route: B62route,
-    color: '1177ff'
+    color: '#1177ff'
   }
 }
 
@@ -25,7 +25,7 @@ const drawRoutes = () => (
     <GeoJSON
       data={line.route}
       key={uniqid()}
-      style={{ color: `#${line.color}33` }}
+      style={{ color: `${line.color}33` }}
     />
   ))
 )
