@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import L from 'leaflet'
 import { CircleMarker, Marker } from 'react-leaflet'
 import uniqid from 'uniqid'
