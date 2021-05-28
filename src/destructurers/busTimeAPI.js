@@ -13,10 +13,12 @@ const getBusPosition = (bus) => [
   journey(bus).Bearing
 ]
 
-const getBusArrival = (bus) => [
-  call(bus).ArrivalProximityText,
-  call(bus).ExpectedArrivalTime
-]
+const getBusArrival = (bus) => ({
+  status: call(bus).ArrivalProximityText,
+  eta: call(bus).ExpectedArrivalTime,
+  departure: call(bus).ExpectedDepartureTime,
+  terminal: journey(bus).OriginAimedDepartureTime
+})
 
 const getBuses = (stop) => svcDelivery(stop).StopMonitoringDelivery[0].MonitoredStopVisit
   .map((bus) => ({

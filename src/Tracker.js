@@ -8,6 +8,7 @@ import stops from './settings/stops'
 import { busTimeStopAPI, proxyURL } from './settings/busTimeAPI'
 import drawRoutes from './indicators/routes'
 import { drawBuses, drawStops, drawUser } from './indicators/markers'
+import showInfo from './indicators/info'
 import { getBuses, getTimestamp } from './destructurers/busTimeAPI'
 import {
   mapAttr, tilesURL, mapCenter, mapZoom
@@ -25,7 +26,7 @@ function Tracker() {
     const busStops = []
 
     Object.values(stops).map((stop) => (
-      apiRequests.push(
+      apiRequests.push( // CLEAN UP
         axios.post(proxyURL + encodeURIComponent(`${busTimeStopAPI}${stop.id}&nocache=${uniqid()}`))
           .then((response) => busStops.push({
             data: response,
@@ -86,13 +87,7 @@ function Tracker() {
       { drawRoutes() }
       { drawStops() }
       { drawBuses(stopData) }
-
-      <div className="timestamp leaflet-control">
-        <p><em>stop: time data fetched</em></p>
-        { Object.values(stopData).map((stop) => (
-          <p key={uniqid()}>{`${stop.name}: ${stop.timestamp}`}</p>
-        ))}
-      </div>
+      { showInfo(stopData) }
     </MapContainer>
   )
 }

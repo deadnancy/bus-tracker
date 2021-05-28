@@ -34,7 +34,7 @@ const drawStops = () => (
     <CircleMarker
       center={stop.position}
       key={uniqid()}
-      pathOptions={{ color: stop.color, opacity: 0, fillOpacity: 0.66 }}
+      pathOptions={{ color: stop.color, opacity: 0, fillOpacity: 1 }}
       radius={5}
     />
   ))

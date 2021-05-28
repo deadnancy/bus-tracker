@@ -1,4 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Pragati+Narrow:wght@400;700&display=swap');
+
 #map, .leaflet-container {
+  background: #333;
+  font-family: 'Pragati Narrow', sans-serif;
   height: 100%;
 }
 
@@ -11,13 +15,27 @@
   color: #ccc;
 }
 
-.timestamp {
+.panel {
   bottom: 0;
-  font-size: 9px;
+  font-size: 11px;
+  line-height: 1.2;
   padding: 1px 5px;
   position: absolute;
 }
 
-.timestamp p {
+.panel section {
+  margin-bottom: 5px;
+}
+
+.panel h2 {
+  background: #999;
+  color: #000;
+  font-size: 12px;
+  margin: 0 0 2px;
+  padding: 0 2px;
+}
+
+.panel p {
+  color: #ccc;
   margin: 0;
 }
