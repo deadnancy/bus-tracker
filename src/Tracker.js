@@ -7,7 +7,7 @@ import uniqid from 'uniqid'
 import stops from './settings/stops'
 import { busTimeStopAPI, proxyURL } from './settings/busTimeAPI'
 import drawRoutes from './indicators/routes'
-import { drawBus, drawStops, drawUser } from './indicators/markers'
+import { drawBuses, drawStops, drawUser } from './indicators/markers'
 import { getBuses, getTimestamp } from './destructurers/busTimeAPI'
 import {
   mapAttr, tilesURL, mapCenter, mapZoom
@@ -85,12 +85,7 @@ function Tracker() {
       { userPosition && drawUser(userPosition) }
       { drawRoutes() }
       { drawStops() }
-
-      { Object.values(stopData).map((stop) => (
-        stop.buses.map((bus) => (
-          drawBus(stop.color, bus.position)
-        ))
-      ))}
+      { drawBuses(stopData) }
 
       <div className="timestamp leaflet-control">
         <p><em>stop: time data fetched</em></p>
