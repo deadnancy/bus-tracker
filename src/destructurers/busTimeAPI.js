@@ -1,7 +1,9 @@
+import time from './time'
+
 // https://bustime.mta.info/wiki/Developers/SIRIVehicleMonitoring
 
 const svcDelivery = (stop) => stop.data.contents.Siri.ServiceDelivery
-const getTimestamp = (stop) => svcDelivery(stop).ResponseTimestamp.match(/\d\d:\d\d:\d\d/)
+const getTimestamp = (stop) => time(svcDelivery(stop).ResponseTimestamp)
 
 const journey = (bus) => bus.MonitoredVehicleJourney
 const position = (bus) => journey(bus).VehicleLocation
