@@ -4,7 +4,7 @@ import time from '../destructurers/time'
 
 const getStopInfo = (stopData) => {
   const stops = []
-  let timestamp = '---'
+  let timestamp = 'unknown'
 
   Object.values(stopData).forEach((stop) => {
     const { buses, color, name } = stop
@@ -23,11 +23,11 @@ const getStatus = (arrival) => {
   let markup = ''
 
   if (terminal) {
-    // Data gets weird sometimes.
+    // MTA data gets weird sometimes.
     const departs = departure || terminal
     markup = `At terminal. Departs ${time(departs)}.`
   } else {
-    const arrives = eta ? time(eta) : '[error]'
+    const arrives = eta ? time(eta) : 'unknown'
     markup = `${status} (ETA ${arrives}).`
   }
 
@@ -56,7 +56,7 @@ const generateMarkup = (stops) => (
 )
 
 const drawToggle = (stopData) => (
-  Object.values(stopData).map((stop) => (
+  stopData.map((stop) => (
     <div
       className="stripe"
       key={uniqid()}

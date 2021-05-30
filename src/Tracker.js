@@ -18,7 +18,7 @@ import 'leaflet/dist/leaflet.css'
 import './Tracker.css'
 
 function Tracker() {
-  const [stopData, setStopData] = useState({})
+  const [stopData, setStopData] = useState([])
   const [userPosition, setUserPosition] = useState()
 
   const getStopData = () => {
@@ -32,24 +32,26 @@ function Tracker() {
             data: response,
             id: stop.id,
             name: stop.name,
-            color: stop.color
+            color: stop.color,
+            index: stop.index
           }))
       )
     ))
 
     Promise.all(apiRequests).then(() => {
+      const latestData = [...stopData]
+
       busStops.forEach((stop) => {
-        setStopData((prevStopData) => ({
-          ...prevStopData,
-          [stop.id]: {
-            id: stop.id,
-            name: stop.name,
-            color: stop.color,
-            buses: getBuses(stop.data),
-            timestamp: getTimestamp(stop.data)
-          }
-        }))
+        latestData[stop.index] = {
+          id: stop.id,
+          name: stop.name,
+          color: stop.color,
+          buses: getBuses(stop.data),
+          timestamp: getTimestamp(stop.data)
+        }
       })
+
+      setStopData(latestData)
     })
       .catch((error) => { throw new Error(error) })
   }

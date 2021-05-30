@@ -9,7 +9,7 @@ import userMarker from './user'
 const svg = 'data:image/svg+xml;base64,'
 
 const drawBuses = (stopData) => (
-  Object.values(stopData).map((stop) => (
+  stopData.map((stop) => (
     stop.buses.map((bus) => {
       const [position, bearing] = bus.position
 
@@ -34,8 +34,8 @@ const drawStops = () => (
     <CircleMarker
       center={stop.position}
       key={uniqid()}
-      pathOptions={{ color: stop.color, opacity: 0, fillOpacity: 1 }}
-      radius={5}
+      pathOptions={{ color: stop.color, opacity: 1, fillOpacity: 0.5 }}
+      radius={4.5}
     />
   ))
 )
