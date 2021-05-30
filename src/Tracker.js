@@ -26,7 +26,7 @@ function Tracker() {
     const busStops = []
 
     Object.values(stops).map((stop) => (
-      apiRequests.push( // CLEAN UP
+      apiRequests.push(
         axios.post(proxyURL + encodeURIComponent(`${busTimeStopAPI}${stop.id}&nocache=${uniqid()}`))
           .then((response) => busStops.push({
             data: response,
