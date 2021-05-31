@@ -1,13 +1,13 @@
 import { GeoJSON } from 'react-leaflet'
 import uniqid from 'uniqid'
-import routes from '../settings/routes'
+import routeSettings from '../settings/routes'
 
 const drawRoutes = () => (
-  Object.values(routes).map((route) => (
+  Object.values(routeSettings).map((setting) => (
     <GeoJSON
-      data={route.path}
+      data={setting.path}
       key={uniqid()}
-      style={{ color: `${route.color}33` }}
+      style={{ color: `${setting.color}33` }}
     />
   ))
 )

@@ -2,7 +2,7 @@ import L from 'leaflet'
 import { CircleMarker, Marker } from 'react-leaflet'
 import uniqid from 'uniqid'
 
-import stops from '../settings/stops'
+import stopSettings from '../settings/stops'
 import busMarker from './bus'
 import userMarker from './user'
 
@@ -30,11 +30,11 @@ const drawBuses = (stopData) => (
 )
 
 const drawStops = () => (
-  stops.map((stop) => (
+  stopSettings.map((setting) => (
     <CircleMarker
-      center={stop.position}
+      center={setting.position}
       key={uniqid()}
-      pathOptions={{ color: stop.color, opacity: 1, fillOpacity: 0.5 }}
+      pathOptions={{ color: setting.color, opacity: 1, fillOpacity: 0.5 }}
       radius={4.5}
     />
   ))

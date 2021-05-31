@@ -4,15 +4,13 @@ import { MapContainer, TileLayer } from 'react-leaflet'
 import 'leaflet-rotatedmarker'
 import uniqid from 'uniqid'
 
-import stops from './settings/stops'
+import stopSettings from './settings/stops'
 import { busTimeStopAPI, proxyURL } from './settings/busTimeAPI'
 import drawRoutes from './indicators/routes'
 import { drawBuses, drawStops, drawUser } from './indicators/markers'
 import showInfo from './indicators/info'
 import { getBuses, getTimestamp } from './destructurers/busTimeAPI'
-import {
-  mapAttr, tilesURL, mapCenter, mapZoom
-} from './settings/map'
+import mapSettings from './settings/map'
 
 import 'leaflet/dist/leaflet.css'
 import './Tracker.css'
@@ -25,15 +23,15 @@ function Tracker() {
     const apiRequests = []
     const busStops = []
 
-    Object.values(stops).map((stop) => (
+    Object.values(stopSettings).map((setting) => (
       apiRequests.push(
-        axios.post(proxyURL + encodeURIComponent(`${busTimeStopAPI}${stop.id}&nocache=${uniqid()}`))
+        axios.post(proxyURL + encodeURIComponent(`${busTimeStopAPI}${setting.id}&nocache=${uniqid()}`))
           .then((response) => busStops.push({
             data: response,
-            id: stop.id,
-            name: stop.name,
-            color: stop.color,
-            index: stop.index
+            id: setting.id,
+            name: setting.name,
+            color: setting.color,
+            index: setting.index
           }))
       )
     ))
@@ -76,13 +74,13 @@ function Tracker() {
 
   return (
     <MapContainer
-      center={mapCenter}
-      zoom={mapZoom}
+      center={mapSettings.center}
+      zoom={mapSettings.zoom}
       zoomControl={false}
     >
       <TileLayer
-        attribution={mapAttr}
-        url={tilesURL}
+        attribution={mapSettings.attribution}
+        url={mapSettings.tilesURL}
       />
 
       { userPosition && drawUser(userPosition) }
