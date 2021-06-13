@@ -4,7 +4,7 @@
 
 This is a personal NYC MTA bus tracker. Its scope is the three buses I rely on to get to my studio and back&mdash;the B62, B43 and B48&mdash;and the five stops where I catch those buses.
 
-This app was cxreated with [Create React App](https://create-react-app.dev) using the MTA's [SIRI StopMonitoring Call](https://bustime.mta.info/wiki/Developers/SIRIStopMonitoring) to find the next three approaching buses to each of my stops. Map data is from [OpenStreetMap](https://www.openstreetmap.org/) presented with [Leaflet](https://leafletjs.com) and [React Leaflet](http://react-leaflet.js.org) with tiles from [MapBox](https://www.mapbox.com/).
+This app was created with [Create React App](https://create-react-app.dev) using the MTA's [SIRI StopMonitoring Call](https://bustime.mta.info/wiki/Developers/SIRIStopMonitoring) to find the next three approaching buses to each of my stops. Map data is from [OpenStreetMap](https://www.openstreetmap.org/) presented with [Leaflet](https://leafletjs.com) and [React Leaflet](http://react-leaflet.js.org) with tiles from [MapBox](https://www.mapbox.com/).
 
 ## demo
 
