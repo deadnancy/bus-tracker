@@ -6,9 +6,9 @@ const getStopInfo = (stopData) => {
   const stops = []
   let timestamp = 'unknown'
 
-  Object.values(stopData).forEach((stop) => {
-    const { buses, color, name } = stop
-    timestamp = stop.timestamp
+  Object.values(stopData).forEach((dataPoint) => {
+    const { buses, color, name } = dataPoint
+    timestamp = dataPoint.timestamp
 
     stops.push({ buses, color, name })
   })
@@ -34,7 +34,7 @@ const getStatus = (arrival) => {
   return markup
 }
 
-const generateMarkup = (stops) => (
+const generateArrivals = (stops) => (
   stops.map((stop) => (
     <section key={uniqid()}>
       <h2 style={{ background: stop.color }}>{stop.name}</h2>
@@ -76,7 +76,7 @@ const showInfo = (stopData) => {
         onMouseDown={() => setPanel(false)}
         type="button"
       >
-        { generateMarkup(stopInfo.stops) }
+        { generateArrivals(stopInfo.stops) }
         <em>Latest data fetched at {stopInfo.timestamp}.</em>
       </button>
 
